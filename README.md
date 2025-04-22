@@ -1,105 +1,73 @@
-# TPN CLI
+<h1 align="center">🌐 tpn-cli</h1>
 
-**The decentralized CLI for spinning up WireGuard tunnels in the TPN validator network.**
+<pre>
+████████╗██████╗ ███╗   ██╗     ██████╗██╗     ██╗
+╚══██╔══╝██╔══██╗████╗  ██║    ██╔════╝██║     ██║
+   ██║   ██████╔╝██╔██╗ ██║    ██║     ██║     ██║
+   ██║   ██╔═══╝ ██║╚██╗██║    ██║     ██║     ██║
+   ██║   ██║     ██║ ╚████║    ╚██████╗███████╗██║
+   ╚═╝   ╚═╝     ╚═╝  ╚═══╝     ╚═════╝╚══════╝╚═╝
+</pre>
+<p align="center">
+  <b>Decentralized VPN at your fingertips</b><br>
+  A stylish, zero-config WireGuard tunnel CLI with country search, lease timer & live progress.
+</p>
 
-Leverage TPN’s mesh of validator nodes to lease WireGuard peer‑configs in any geo‑zone, on‑demand, via a single command.
+<p align="center">
+  <a href="https://www.npmjs.com/package/tpn-cli"><img src="https://img.shields.io/npm/v/tpn-cli.svg" alt="npm version"></a>
+  <a href="https://img.shields.io/npm/dw/tpn-cli.svg"><img src="https://img.shields.io/npm/dw/tpn-cli.svg" alt="downloads/week"></a>
+</p>
 
----
+## 🚀 Features
 
-## 🧩 Protocol Overview
+- 🔍 **Autocomplete Country Picker** – fuzzy search your desired VPN exit country  
+- ⏲️ **Set Lease Duration** – specify how long the VPN should run (in minutes)  
+- ⚙️ **Auto Installs WireGuard** – detects & installs `wireguard-tools` (Linux/macOS)  
+- 🧠 **Non-Interactive Mode** – pass flags like `--country` and `--leasemins` to skip prompts  
+- 📡 **IP Check** – shows your public IP before & after connecting  
+- 📦 **npx-Friendly** – run instantly with `npx` without installing globally  
+- ⏹️ **Graceful Teardown** – prompts to confirm when pressing `Ctrl+C`  
+- ⌛ **Live Timer Bar** – see your lease countdown visually
 
-TPN CLI acts as your on‑chain interface to the Tao Private Network validator set:
-
-1. **Validator Discovery**  
-   Queries multiple **validator Axons** to build a roster of live exit nodes.
-
-2. **Lease Transaction**  
-   Executes an off‑chain “lease” on a chosen node — your ephemeral **WireGuard peer contract** is minted for a configurable duration.
-
-3. **Peer‑to‑Peer Tunnel**  
-   Writes the `tpn.conf` asset and launches the WireGuard interface, creating a trustless, encrypted channel between your client and the miner node.
-
----
-
-## 🔗 Installation
+## 💿 Installation
 
 ```bash
 npm install -g tpn-cli
 ```
 
-> Pre‑install “hook” ensures `wireguard-tools` is present, bootstrapping your environment like a genesis block.
+> Installs the CLI globally so you can use `tpn-cli` anywhere on your system.
 
----
+✅ **No install? No problem. Just run:**
 
-## 🚀 Fast‑Start Usage
+```bash
+npx tpn-cli
+```
+
+> Works exactly the same without polluting global space. Great for CI or quick tests.
+
+## 🧑‍💻 Usage ( Add npx before the command if you don't want to install the CLI globally )
+
+### 🔘 Interactive Mode
 
 ```bash
 tpn-cli
 ```
 
-1. **Select** your exit country (fuzzy‑search picker against the validator ledger).  
-2. **Specify** your lease duration in minutes (your peer‑config’s TTL).  
-3. **Confirm** — the CLI submits your lease transaction, writes `tpn.conf`, and calls `wg-quick up`.  
-4. **Tear Down** your tunnel with:
-   ```bash
-   wg-quick down ./tpn.conf
-   ```
+- Search for your desired country
+- Enter lease time in minutes
+- VPN is up in seconds
 
----
+### ⚡ Non-Interactive Mode
 
-## ⚙️ Configuration & Governance
-
-- **validators.json**  
-  Manage your on‑chain validator set. By default, TPN CLI randomizes among the official network Axons. To override, edit `validators.json`:
-
-  ```json
-  [
-    { "UID": 0,   "Axon": "185.189.44.166:3000" },
-    { "UID": 4,   "Axon": "185.141.218.102:3000" },
-    …
-  ]
-  ```
-
-- **CLI Flags & Governance Proposals**  
-  ```bash
-  tpn-cli --help
-  ```
-  Propose new flags or node-selection logic via GitHub issues — community governance in action.
-
----
-
-## 🏗️ Architecture
-
-```
-┌─────────────┐        Lease API         ┌────────────────┐
-│  tpn-cli    │ ────────────────────▶   │ Validator Node │
-│ (your wallet)│                          │ (WireGuard WG) │
-└─────────────┘ ◀─────────────────── ACK └────────────────┘
-         │
-         │ spawn interface
-         ▼
-   [ WireGuard Tunnel ]
+```bash
+tpn-cli --country NL --leasemins 10
 ```
 
-- **Leasing Layer**: off‑chain API calls to `/config/countries` and `/config/new`.
-- **Peer Layer**: WireGuard tunnel as the P2P encrypted channel.
-- **Control Layer**: CLI spinners, colored logs, and ASCII banners for a smooth UX “gasless” experience.
+## ✍️ Author
 
----
+**Sambit Sargam**  
+GitHub: [@sambitsargam](https://github.com/sambitsargam)  
+Twitter: [@sambitsargam](https://x.com/sambitsargam)
 
-## 🤝 Contributing
 
-TPN CLI is fully open‑source under MIT. All contributions—PRs, validator proposals, bug bounties—are welcome:
-
-1. Fork the repo  
-2. Create your feature branch (`git checkout -b feature/awesome-node`)  
-3. Commit your changes (`git commit -m 'feat: add new flag'`)  
-4. Push & open a PR  
-
----
-
-## 📜 License
-
-TPN CLI is released under the [MIT License](LICENSE).
-
----
+> ✨ If you enjoy this tool, a star ⭐ on GitHub would mean a lot!
