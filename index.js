@@ -15,6 +15,7 @@ import ora from 'ora';
 import cliProgress from 'cli-progress';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import qrcode from 'qrcode-terminal';
 
 // —— ESM __dirname shim
 const __filename = fileURLToPath(import.meta.url);
@@ -67,10 +68,12 @@ async function main() {
     .description('🌈 A CLI for TPN VPN')
     .option('-v, --validator <uid>', 'TPN validator UID')
     .option('-c, --country <code|name>', 'Exit country (ISO code or full name)')
+    .option('-m, --mobile', 'Generate a mobile QR-code instead of bringing the tunnel up')
     .option('-l, --leasemins <minutes>', 'Lease duration in minutes')
     .parse(process.argv);
 
   const opts = program.opts();
+  const mobileMode = opts.mobile === true;
   const useNonInteractive = opts.country && opts.leasemins;
 
   console.log(gradient.rainbow.multiline(figlet.textSync('TPN CLI', { horizontalLayout: 'full' })));
@@ -166,6 +169,19 @@ async function main() {
     process.exit(1);
   });
   spinner2.succeed(chalk.green(`Leased for ${leaseMinutes}m!`));
+
+   if (mobileMode) {
+        console.log();
+         console.log(
+         boxen(chalk.blue('📱 Scan this QR in your WireGuard mobile app'), {
+            padding: 1,
+            borderColor: 'cyan',
+            borderStyle: 'round'
+          })
+        );
+        qrcode.generate(peerConfig, { small: true });
+        process.exit(0);
+     }
 
   const cfgPath = process.getuid && process.getuid() === 0
     ? '/etc/wireguard/tpn.conf'

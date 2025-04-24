@@ -1,10 +1,15 @@
 {
   "name": "tpn-cli",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A command‑line interface for connecting to the TPN WireGuard VPN network.",
   "author": "Sambit Sargam Ekalabya",
   "homepage": "https://github.com/sambitsargam/tpn-cli/blob/main/docs.md",
-  "keywords": ["tpn-cli", "vpn", "wireguard", "cli"],
+  "keywords": [
+    "tpn-cli",
+    "vpn",
+    "wireguard",
+    "cli"
+  ],
   "type": "module",
   "main": "index.js",
   "bin": {
@@ -25,7 +30,8 @@
     "gradient-string": "^3.0.0",
     "inquirer": "^8.2.6",
     "inquirer-autocomplete-prompt": "^2.0.1",
-    "ora": "^6.1.2"
+    "ora": "^6.1.2",
+    "qrcode-terminal": "^0.12.0"
   },
   "license": "MIT"
 }
